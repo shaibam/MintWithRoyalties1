@@ -4,7 +4,7 @@ async function main() {
   const MyNFT = await ethers.getContractFactory("FlatusGenesis");
 
   // Start deployment, returning a promise that resolves to a contract object
-  const myNFT = await MyNFT.deploy(RELAYER_ADDRESS); // Instance of the contract 
+  const myNFT = await MyNFT.deploy(); // Instance of the contract 
   console.log("Contract deployed to address:", myNFT.address);
 }
 
