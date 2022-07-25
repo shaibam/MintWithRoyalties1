@@ -10,6 +10,7 @@ import "./ERC2981ContractWideRoyalties.sol";
 
 /// @title Flatus-Genesis NFT mitifier
 
+
 contract FlatusGenesis is
     ERC721URIStorage,
     // ERC721,
@@ -24,6 +25,10 @@ contract FlatusGenesis is
     uint256 nextTokenId;
 
     constructor() ERC721("FlatusGenesisNFT", "FGNFT") {}
+    
+    function contractURI() public view returns (string memory) {
+        return "https://metadata-url.com/my-metadata";
+    }
 
     /// @inheritdoc	ERC165
     function supportsInterface(bytes4 interfaceId)
@@ -60,7 +65,7 @@ contract FlatusGenesis is
     }
 
     function payMe(address recipient) public payable virtual returns (address) {
-        require(msg.value >= 20, "Not enough ETH sent; check price!"); // requests payment prior to minting
+        require(msg.value >= 150000000000000000, "Not enough ETH sent; check price!"); // requests payment prior to minting
         payable(owner()).transfer(msg.value);
         return recipient;
     }
