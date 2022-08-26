@@ -13,14 +13,16 @@ contract Flatus is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, O
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
+    bool private revealed = false;
+    string private preReavelURL = "https://gateway.pinata.cloud/ipfs/QmW5haM17kF96Xnh1uiDtjUXjaKjjy6VPYV4mArgJERSbT"; //fourth template
 
     uint256 public mintPrice = 0.01 ether;    
     uint256 public maxPerWallet = 20;
-    mapping(address => uint256) public walletMints;
+    mapping(address => uint256) public walletMints;    
 
     constructor() ERC721("Flatus", "FART") {
         _setDefaultRoyalty(owner(),450); //100 = 1% 
-    }
+    }    
 
     function mintToken(address recipient, string[] memory uri) public payable {
         require((uri.length) * mintPrice == msg.value, "wrong amount sent ");
@@ -53,7 +55,11 @@ contract Flatus is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, O
         override(ERC721, ERC721URIStorage)
         returns (string memory)
     {
-        return super.tokenURI(tokenId);
+        if (revealed == true) {
+            return super.tokenURI(tokenId);                
+        } else {           
+            return preReavelURL;
+        }
     }
 
     function supportsInterface(bytes4 interfaceId)
@@ -63,6 +69,10 @@ contract Flatus is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, O
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
+    }
+
+    function revealCollection() public onlyOwner  {
+        revealed = true;
     }
 
     function getWalletMints(address wallet) public onlyOwner view returns (uint256) {
