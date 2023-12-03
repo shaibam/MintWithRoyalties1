@@ -25,12 +25,15 @@ contract Flatus is
     uint256 public maxPerWallet = 20;
     mapping(address => uint256) public walletMints;
 
-    constructor() ERC721("Flatus", "FLTS") {}
+    constructor() ERC721("Flatus", "FART") {}
 
+    //TODO: What is this? I know it has something to do with opensea.
     function contractURI() public pure returns (string memory) {
         return "https://metadata-url.com/my-metadata";
     }
 
+    //TODO: check what other methods are missing
+    
     /// @inheritdoc	ERC165
     function supportsInterface(bytes4 interfaceId)
         public
@@ -42,6 +45,8 @@ contract Flatus is
         return super.supportsInterface(interfaceId);
     }
 
+    //TODO: Set default hardcoded royalties, and change receipient to be owner
+
     /// @notice Allows to set the royalties on the contract
     /// @dev This function in a real contract should be protected with a onlyOwner (or equivalent) modifier
     /// @param recipient the royalties recipient
@@ -49,6 +54,8 @@ contract Flatus is
     function setRoyalties(address recipient, uint256 value) public onlyOwner {
         _setRoyalties(recipient, value);
     }
+
+    //todo: change mintToken to accept only buyer address and amount, token should link to metadata - baseURI+TokenId
 
     function mintToken(address recipient, string[] memory uri) public payable {
         require((uri.length) * mintPrice == msg.value, "wrong amount sent");
